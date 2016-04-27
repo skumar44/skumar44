@@ -2,12 +2,10 @@ import java.util.Random;
 
 public class BoardMechanics {
 
-	
 	static int tetroO1[][] = {{1, 1},{1, 1}};
 	static int tetroO2[][] = {{1, 1},{1, 1}};
 	static int tetroO3[][] = {{1, 1},{1, 1}};
 	static int tetroO4[][] = {{1, 1},{1, 1}};
-
 	
 	static int tetroI1[][] = {{2, 0},{2, 0},{2, 0},{2, 0}};
 	static int tetroI2[][] = {{0, 0, 0, 0},{2, 2, 2, 2}};
@@ -66,7 +64,7 @@ public class BoardMechanics {
 	
 	static void delay(){
 		try {
-			  Thread.sleep(1500);
+			  Thread.sleep(200);
 			} catch (InterruptedException ie) {
 			    //Handle exception
 			}		
@@ -150,36 +148,80 @@ public class BoardMechanics {
 		printBoard();
 	}
 	
+	
+	
+	static boolean isNextNotASpace(){
+		int i, j;
+		for (i = 0; i < boardX; i++){
+			for (j = 0; j < boardY; j++){
+				if (board[i][j] == shapeNum){
+					if ( (i + 1) != boardX){
+						if (board[i+1][j] != 0 && board[i+1][j] != shapeNum){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	/*
+	 * method to keep dropping a shape down at a specific rate 
+	 */
 	static boolean finishedDropping = false;
 	static void movePieceDown(int [][] shape){
 		int i, j; int y = 0;
+		int count = 0;
 		firstDrop(shape);
 		while(!finishedDropping){
-		for(i = boardX-1; i>=0 ; i--){
-			for(j = boardY-1; j >=0; j--){
-				if(board[i][j] != 0 && i < boardY){
-
-					board[i+1][j] = board[i][j];
-					board[i][j] = 0;
-				}
+			for(i = boardX-1; i>=0 ; i--){
+				for(j = boardY-1; j >=0; j--){
+					if(i+1 < boardX  && j < boardY && board[i][j] == shapeNum){
+						board[i+1][j] = board[i][j];
+						board[i][j] = 0;
+					}
 				}					
 			}
-		
-		shapeCenterX++;
-		delay();
-		if(y > 3){
-			rotatePiece();
-		}
-		y++;
-		printBoard();		
+			delay();
+			if(y > 3){
+			  //movePieceLeft();
+			  rotatePiece();
+			}
+			shapeCenterX++;
+			if (shapeCenterX == boardX + 1 || isNextNotASpace()){
+				System.out.println("shapeCenterX: " + shapeCenterX + " isNextNotASpace: " + isNextNotASpace() );
+				finishedDropping = true;
+				System.out.println("shapeNum: " + shapeNum);				
+				for(i = 0; i < boardX; i++){
+					for(j = 0; j < boardY; j++){
+						if(board[i][j] == shapeNum)
+							board[i][j] = board[i][j] + 10;
+						
+					}
+				}
+//				System.out.println("1ShapeCenterX: " + shapeCenterX + " " + "1ShapeCenterY: " + shapeCenterY);
+//				movePieceDown(nextPiece());
+//				System.out.println("2ShapeCenterX: " + shapeCenterX + " " + "2ShapeCenterY: " + shapeCenterY);
+			}
+//			if (shapeCenterY == 0){
+//				finishedDropping = true;
+//			}
+//			delay();
+//			if(y > 3){
+//			  //movePieceLeft();
+//			  rotatePiece();
+//			}
+			y++;
+			printBoard();		
 		}
 	}
 	
 	/**
-	 * Roate piece to the counter clockwise
-	 * @param shape
+	 * Rotate piece to the counter clockwise
 	 */
-	static void movePieceLeft(int [][] shape){
+	static void movePieceLeft(){
 		int i, j;
 		for(i = 0; i < boardX; i++){
 			for(j = 0; j < boardY; j++){
@@ -194,9 +236,8 @@ public class BoardMechanics {
 	
 	/**
 	 * Rotate piece clockwise
-	 * @param shape
 	 */
-	static void movePieceRight(int [][] shape){
+	static void movePieceRight(){
 		int i, j;
 		for(i = 0; i < boardX; i++){
 			for(j = 0; j < boardY; j++){
@@ -208,8 +249,7 @@ public class BoardMechanics {
 		}
 		shapeCenterY++;	
 	}
-	
-	
+
 	/**
 	 * Print board
 	 */
@@ -218,14 +258,14 @@ public class BoardMechanics {
 		System.out.println("");
 		for(i = 0; i <boardX; i++){
 			for(j = 0; j< boardY; j++){
-				System.out.print(board[i][j] + "");
+				System.out.print(board[i][j] + " ");
 			}
 		System.out.println("");
 		}
 	}
 	
 	/**
-	 * Rotate the curretnt tetromonioeo...
+	 * Rotate the current tetrominoes...
 	 * For rotate piece function, it assumes shapeNum and stateNum have been previously set
 	 * @param shape
 	 */
@@ -243,9 +283,13 @@ public class BoardMechanics {
 			}
 		}
 		System.out.println("/*************************/");
-		printBoard();
+		//printBoard();
 		System.out.println("/*************************/");
 		int [][] shape;
+		/*
+		 * the square tetromino's rotating shape isn't implemented here because it retains the same shape whenever
+		 * it is rotated
+		 */
 		
 		if(shapeNum == 2){
 			if(stateNum == 1 || stateNum == 3){
@@ -260,7 +304,79 @@ public class BoardMechanics {
 				shapeWidth = 2;
 			} 
 		}
-		else/*(shapeNum == 6)*/{
+		else if (shapeNum == 3){
+			if(stateNum == 1){
+				stateNum  = 2;
+				shape = tetroT2;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			} else if(stateNum == 2){
+				stateNum  = 3;
+				shape = tetroT3;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			} else if(stateNum == 3){
+				stateNum  = 4;
+				shape = tetroT4;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			} else { //stateNum == 4
+				stateNum  = 1;
+				shape = tetroT1;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			}
+		}
+		
+		else if (shapeNum == 4){
+			if(stateNum == 1){
+				stateNum  = 2;
+				shape = tetroL2;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			} else if(stateNum == 2){
+				stateNum  = 3;
+				shape = tetroL3;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			} else if(stateNum == 3){
+				stateNum  = 4;
+				shape = tetroL4;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			} else { //stateNum == 4
+				stateNum  = 1;
+				shape = tetroL1;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			}
+		}
+		
+		else if (shapeNum == 5){
+			if(stateNum == 1){
+				stateNum  = 2;
+				shape = tetroRL2;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			} else if(stateNum == 2){
+				stateNum  = 3;
+				shape = tetroRL3;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			} else if(stateNum == 3){
+				stateNum  = 4;
+				shape = tetroRL4;
+				shapeHeight = 2;
+				shapeWidth = 3;
+			} else { //stateNum == 4
+				stateNum  = 1;
+				shape = tetroRL1;
+				shapeHeight = 3;
+				shapeWidth = 2;
+			}
+		}
+		
+		else if(shapeNum == 6){
 			if(stateNum == 1){
 				stateNum  = 2;
 				shape = tetroS2;
@@ -282,7 +398,33 @@ public class BoardMechanics {
 				shapeHeight = 2;
 				shapeWidth = 3;
 			}
-		}
+		}	else /*shapeNum == 7*/{
+				if(stateNum == 1){
+					stateNum  = 2;
+					shape = tetroZ2;
+					shapeHeight = 2;
+					shapeWidth = 3;
+				} else if(stateNum == 2){
+					stateNum  = 3;
+					shape = tetroZ3;
+					shapeHeight = 3;
+					shapeWidth = 2;
+				} else if(stateNum == 3){
+					stateNum  = 4;
+					shape = tetroZ4;
+					shapeHeight = 2;
+					shapeWidth = 3;
+				} else { //stateNum == 4
+					stateNum  = 1;
+					shape = tetroZ1;
+					shapeHeight = 3;
+					shapeWidth = 2;
+				}
+			}
+			
+			
+			
+			
 		
 		
 		System.out.print("shapeCenterX: " + shapeCenterX + " shapeCenterY: " + shapeCenterY);
@@ -291,24 +433,25 @@ public class BoardMechanics {
 				board[shapeCenterX - (shapeHeight - x)][shapeCenterY - (shapeWidth - y)] = shape[x][y];
 			}
 		}
-		
-		
-		
 	}
 	
 	public static void main(String[] args){
 		initBoard();
-		shapeHeight = 4;
-		shapeWidth = 2;
-		shapeCenterX = 1;
-		shapeCenterY = offset;
-		shapeNum = 2;
+		shapeHeight = 2;
+		shapeWidth = 3;
+		shapeCenterX = 0;
+		shapeCenterY = offset + 1;
+		shapeNum = 3;
 //		movePieceDown(nextPiece());
-		movePieceDown(tetroI1);
-
+		movePieceDown(tetroT1);
+		
+//		shapeHeight = 2;
+//		shapeWidth = 3;
+//		shapeCenterX = 0;
+//		shapeCenterY = offset + 1; 
+//		shapeNum = 6;
+		finishedDropping = false;
+		movePieceDown(nextPiece());
 		return;
-	}
-	
-	
-	
+	}	
 }
