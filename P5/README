@@ -18,6 +18,10 @@ Down arrow for soft drop (Extra credit)
 Space bar for hard drop (Implemented but doesn't work
 Enter will pause the game
 
+To play the game, run the the "TetrisGame" class. Make sure all files here excluding this readme are in the
+same directory.
+
+
 Writers of this program:
 Josue Alvarez
 Geraldine Torres
