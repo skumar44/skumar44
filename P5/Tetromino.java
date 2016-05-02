@@ -1,5 +1,12 @@
 package tetrisGame;
 
+/**
+ * Base Tetromino class that contatins all the initialized 
+ * and declared states of each tetro
+ * @author Josue
+ *
+ */
+
 public abstract class Tetromino {
 	
 	static int tetroO1[][] = {{1, 1},{1, 1}};
@@ -24,7 +31,7 @@ public abstract class Tetromino {
 	
 	static int tetroRL1[][] = {{5, 9, 9}, {5, 5, 5}, {9, 9, 9}};
 	static int tetroRL2[][] = {{9, 5, 5}, {9, 5, 9}, {9, 5, 9}};
-	static int tetroRL3[][] = {{9, 9, 9}, {5, 5, 5}, {5, 5, 9}};
+	static int tetroRL3[][] = {{9, 9, 9}, {5, 5, 5}, {9, 9, 5}};
 	static int tetroRL4[][] = {{9, 5, 9}, {9, 5, 9}, {5, 5, 9}};
 	
 	static int tetroS1[][] = {{9, 6, 6}, {6, 6, 9}, {9, 9, 9}};

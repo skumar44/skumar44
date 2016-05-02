@@ -1,5 +1,11 @@
 package tetrisGame;
 
+/**
+ * Class used for Factory design pattern.
+ * Contains all states for the Z shaped tetro
+ * @author Josue
+ *
+ */
 public class ZShape extends Tetromino{
 
 	public int [][] state1;

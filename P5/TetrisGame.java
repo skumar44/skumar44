@@ -31,7 +31,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 	   private static int Ydim;
 	   static BoardMechanics bm;
 	   
-	   private static int BLACK = 0;
+	   private static int BLACK = 0; //different piece colors, per grid square
 	   private static int YELLOW = 1;
 	   private static int CYAN = 2;
 	   private static int PURPLE = 3;
@@ -59,12 +59,12 @@ public class TetrisGame extends JFrame implements ActionListener {
 		  
 	      //Dropdown menu is created
 	     JMenuBar dropDown = new JMenuBar();
-	     dropDown.setLayout(new FlowLayout());
+	     dropDown.setLayout(new FlowLayout()); //board components + grid layout
 	     JMenu menu1 = new JMenu("Options");
 	     menu1.setMnemonic(KeyEvent.VK_O);
 
-	     QuitItem = new JMenuItem("Quit");
-	     QuitItem.addActionListener(this);
+	     QuitItem = new JMenuItem("Quit");//menu options
+	     QuitItem.addActionListener(this);//quit, about, help, restart/start
 	     AboutItem = new JMenuItem("About");
 	     AboutItem.addActionListener(this);
 	     HelpItem = new JMenuItem("Help");
@@ -98,7 +98,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 	      userScore = new JLabel("Your score: " + bm.userScore);
 	      userScore.setLayout(new FlowLayout());
 	      
-	      /*Panel where the Flag counter, Smeiley reset button and Timer go onto*/
+	      /*Panel where the Score, Next shape,  and Timer go onto*/
 	      JPanel smileyPanel = new JPanel();
 	      smileyPanel.setLayout(new FlowLayout());
 	      smileyPanel.add(userScore,BorderLayout.LINE_START);
@@ -106,7 +106,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 	      smileyPanel.add(timerTest,BorderLayout.LINE_END);
 	      
 	      
-	      /*Creating the panel for the grid of the buttons. 1D array, all of type MyJButtons*/
+	      /*Creating the panel for the grid of the buttons. 2D array, all of type MyJButtons*/
 	      grid2 = new JPanel();
 	      grid2.setLayout(new GridLayout(Xdim, Ydim));
 	      /*Creating the board of MyJButtons*/
@@ -166,7 +166,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 		}
 	   }//End of timerThread
 	   
-	   static private void updateNextPiece(){
+	   static private void updateNextPiece(){ //updating next piece method
 		   if(bm.shapeNum == 1){
 			   smileyButton.setText("O");
 		   }
@@ -228,7 +228,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 					   }
 					   
 					   		bm.checkAndRemoveFilledLines();
-					   		updateScoreGUI();
+					   		updateScoreGUI(); //score updating on GUI
 					   		updateGUI(bm);
 				   }//End of operations while
 			}catch(Exception e)
@@ -245,7 +245,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 	    * Give functionality of playing a new game by setting all flags and 
 	    * conditions to original states.
 	    */
-		public void restartGame()
+		public void restartGame()//when quit option selected, game restart
 		{
 			t.stop();
 			gameThread.stop();
@@ -255,6 +255,8 @@ public class TetrisGame extends JFrame implements ActionListener {
 			timerTest.setText("Your time: " + totalTime);
 			totalTime = 0;
 			t = new Thread(new gameThread());
+			bm.finishedDropping = false;
+			bm.finishedFirstDrop =false;
 			firstButtonPush = false;
 			timerTest.setText("Your time: " + totalTime);
 //			bm.userScore = 0;
@@ -278,29 +280,29 @@ public class TetrisGame extends JFrame implements ActionListener {
 		   @SuppressWarnings("deprecation")
 		public void keyPressed(KeyEvent event){
 			   
-			   if(event.getKeyCode() == KeyEvent.VK_UP){
+			   if(event.getKeyCode() == KeyEvent.VK_UP){//rotate clock wise
 				   gameThread.suspend();
-				   bm.rotatePiece();
-				   bm.delay();
+				   bm.rotatePieceRight();
+//				   bm.delay();
 				   updateGUI(bm);
 				   gameThread.resume();
-			   }else if(event.getKeyCode() == KeyEvent.VK_LEFT){
+			   }else if(event.getKeyCode() == KeyEvent.VK_LEFT){//move left
 				   gameThread.suspend();
 				   bm.movePieceLeft(shape);
 				   updateGUI(bm);
 				   gameThread.resume();
-			   }else if(event.getKeyCode() == KeyEvent.VK_RIGHT){
+			   }else if(event.getKeyCode() == KeyEvent.VK_RIGHT){//move right
 				   gameThread.suspend();
 				   bm.movePieceRight(shape);
 				   updateGUI(bm);
 				   gameThread.resume();
-			   }else if(event.getKeyCode() == KeyEvent.VK_DOWN){
+			   }else if(event.getKeyCode() == KeyEvent.VK_DOWN){//soft drop
 				   //SOFT DROP implement later
 				   gameThread.suspend();
 				   bm.movePieceDown(shape);
 				   updateGUI(bm);
 				   gameThread.resume();
-			   }else if(event.getKeyCode() == KeyEvent.VK_ENTER){
+			   }else if(event.getKeyCode() == KeyEvent.VK_ENTER){//pause the game
 				   if(gameThreadFlag){
 					   gameThread.suspend();
 					   t.suspend();
@@ -312,12 +314,17 @@ public class TetrisGame extends JFrame implements ActionListener {
 					   gameThreadFlag = true;
 				   }
 
-			   }else if(event.getKeyCode() == KeyEvent.VK_SPACE){
+			   }else if(event.getKeyCode() == KeyEvent.VK_SPACE){// hard drop
 				   gameThread.suspend();
 				   bm.moveDownImmmediately();
 				   updateGUI(bm);
 				   gameThread.resume();
 
+			   } else if(event.getKeyCode() == KeyEvent.VK_E){ //roate piece counter clock wise
+				   gameThread.suspend();
+				   bm.rotatePieceLeft();
+				   updateGUI(bm);
+				   gameThread.resume();
 			   }
 			  
 			   System.out.println("Exiting key event!");
@@ -354,7 +361,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 			   //If the hot key is the RestartItem option
 			   else if(event.getSource() == RestartItem)
 			   {
-	  		 	restartGame();
+	  		 	restartGame();//restart game
 	  		 	t.start();
 	  		 	gameThread.start();
 
@@ -363,7 +370,7 @@ public class TetrisGame extends JFrame implements ActionListener {
 			   //If the hot key is the QuitItem option
 			   else if(event.getSource() == QuitItem)
 			   {
-				 System.exit(0);
+				 System.exit(0); //exit game
 				 return;
 				   
 			   }
@@ -376,6 +383,10 @@ public class TetrisGame extends JFrame implements ActionListener {
 
 		   }
 	   
+		   /**
+		    * Update the GUI with the appropriate colors
+		    * @param bm
+		    */
 		   public static void updateGUI(BoardMechanics bm){
 			   System.out.println("Updating GUI");
 			   int i, j;
@@ -409,6 +420,9 @@ public class TetrisGame extends JFrame implements ActionListener {
 			   }
 		   }
 		   
+		   /**
+		    * SINGLETON IMPLEMENTATION
+		    */
 		   private static TetrisGame application = new TetrisGame();
 		   public static TetrisGame singleInstance(){
 			   return application;

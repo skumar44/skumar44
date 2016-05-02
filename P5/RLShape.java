@@ -1,5 +1,12 @@
 package tetrisGame;
 
+
+/**
+ * Class used for Factory design pattern.
+ * Contains all states for the reverse L shaped tetro
+ * @author Josue
+ *
+ */
 public class RLShape extends Tetromino{
 
 	public int [][] state1;

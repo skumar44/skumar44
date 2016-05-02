@@ -1,5 +1,12 @@
 package tetrisGame;
 
+
+/**
+ * Class used for Factory design pattern.
+ * Contains all states for the S shaped tetro
+ * @author Josue
+ *
+ */
 public class SShape extends Tetromino{
 
 	public int [][] state1;

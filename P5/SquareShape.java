@@ -1,5 +1,11 @@
 package tetrisGame;
 
+/**
+ * Class used for Factory design pattern.
+ * Contains all states for the O shaped tetro
+ * @author Josue
+ *
+ */
 public class SquareShape extends Tetromino {
 
 	public int [][] state1;

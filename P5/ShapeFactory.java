@@ -2,6 +2,13 @@ package tetrisGame;
 
 import java.util.Random;
 
+/**
+ * Class used for Factory design pattern.
+ * Return the chosen state of the specific shape type
+ * @author Josue
+ *
+ */
+
 public class ShapeFactory {
 
 	Tetromino shape;
