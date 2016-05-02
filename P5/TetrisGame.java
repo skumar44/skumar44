@@ -168,25 +168,25 @@ public class TetrisGame extends JFrame implements ActionListener {
 	   
 	   static private void updateNextPiece(){ //updating next piece method
 		   if(bm.shapeNum == 1){
-			   smileyButton.setText("O");
+			   smileyButton.setText("Next shape: O");
 		   }
 		   else if(bm.shapeNum == 2){
-			   smileyButton.setText("I");
+			   smileyButton.setText("Next shape: I");
 		   }
 		   else if(bm.shapeNum == 3){
-			   smileyButton.setText("T");
+			   smileyButton.setText("Next shape: T");
 		   }
 		   else if(bm.shapeNum == 4){
-			   smileyButton.setText("L");
+			   smileyButton.setText("Next shape:L");
 		   }
 		   else if(bm.shapeNum == 5){
-			   smileyButton.setText("RL");
+			   smileyButton.setText("Next shape: RL");
 		   }
 		   else if(bm.shapeNum == 6){
-			   smileyButton.setText("S");
+			   smileyButton.setText("Next shape: S");
 		   }
 		   else {
-			   smileyButton.setText("Z");
+			   smileyButton.setText("Next shape: Z");
 		   }
 	   }
 	   
@@ -224,7 +224,8 @@ public class TetrisGame extends JFrame implements ActionListener {
 						   bm.finishedFirstDrop = false;
 						   nextShape = bm.nextPiece();
 						   shape = nextShape;
-						   smileyButton.setText("Next piece: " + bm.shapeNum);
+						   //smileyButton.setText("Next piece: " + bm.shapeNum);
+						   updateNextPiece();
 					   }
 					   
 					   		bm.checkAndRemoveFilledLines();
