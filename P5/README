@@ -2,9 +2,13 @@ To the TA that it may concern,
 
 In this project the two desugb patterns used were the singleton and factory patterns.
 - Singleton
-
+	With this design pattern we restrict the instantiation of a class, namely the TetrisGmae class, to one object to allow 
+	only one game to happen at the time the program runs.
 - Factory
-
+	WIth this design pattern we create a "factory" class that generates every shape. Each of these shapes is it's own class,
+	where in the class is all the states a tetro could possibl be. All of these shape classes extend the base Tetro class that
+	has all the definitions of what each tetro is.
+	
 Operations:
 Up arrow to rotate right
 'E' letter to rotate left
@@ -12,6 +16,11 @@ Left arrow to move left
 Right arrow to move right
 Down arrow for soft drop (Extra credit)
 Space bar for hard drop (Implemented but doesn't work
+
+Writers of this program:
+Josue Alvarez
+Geraldine Torres
+Shruthi Kumar
 
 /*******************************Ignore Below*************************************/
 Notes:
