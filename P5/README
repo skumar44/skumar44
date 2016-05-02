@@ -5,7 +5,13 @@ In this project the two desugb patterns used were the singleton and factory patt
 
 - Factory
 
-
+Operations:
+Up arrow to rotate right
+'E' letter to rotate left
+Left arrow to move left
+Right arrow to move right
+Down arrow for soft drop (Extra credit)
+Space bar for hard drop (Implemented but doesn't work
 
 /*******************************Ignore Below*************************************/
 Notes:
