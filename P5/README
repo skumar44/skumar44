@@ -1,1 +1,37 @@
 http://tetris.wikia.com/wiki/SRS
+
+Comments: 10% (this has increased a lot)
+	— all files must have header comments
+	— at least 2 file must be fully documented
+		— and the rest of the java class file can have little to no comments
+Coding Style: 20% (this has increased a lot)
+	— every class must be in their own .java file, except for event handler(10%)
+	— good variable names,
+	— clean code styles
+		— there aren’t any lines of commented source code that should of been removed from production 
+		Example:
+		// this code doesn’t work, ill just leave it here
+		// for ( … ) {
+		// …. 
+		// }
+	— follows conventions throughout java class file
+	— uses the right Class file name conventions 
+	— proper use of private, protected, and public access modifier in class
+	— makes use of static if need be
+GUI: 10% (this is that your GUI is working and intuitive to use)
+GUI Menu 10%
+	- Quit program (2)
+	- about box (2)
+	- help menu on how to use the program (2)
+	- start (2)
+	- reset  (2)
+Game play: (50%)
+	- left, right rotates the game pieces (10)
+	- pauses the falling piece in mid air and does not advance down (5)	
+	- pieces fall into proper place (5)
+	- gravity work (5)
+	- when a row is full it is cleared (25%)
+		- unto fours rows can be cleared (10%)
+		- pieces do not over lap one another (5%)
+		- pieces do not go outside the playing area (5%)
+		- correct numbers of rows cleared (5%)
